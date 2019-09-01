@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Syndicate Bank"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:id="@+id/logout"/>
+
+        <TextView
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Behala Branch"
+                android:textSize="20sp"
+                android:id="@+id/dropdown_spin_text"
+                android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your next customer is"
+            android:textSize="20sp"
+            android:layout_marginRight="10dp"/>
+
+        <include layout="@layout/serving_customer" />
+
+
+        <Button
+
+                android:id="@+id/button_served"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Completed"/>
+
+        <Button
+                android:id="@+id/button_next_customer"
+               android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Next Customer"/>
+
+
+
+        <Button
+            android:id="@+id/button_finish"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Finish for the day"/>
+
+    </LinearLayout>
+
+
+</FrameLayout>
