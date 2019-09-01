@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "226502907853",
+    "firebase_url": "https://synq-a8e8b.firebaseio.com",
+    "project_id": "synq-a8e8b",
+    "storage_bucket": "synq-a8e8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226502907853:android:7c3d30b8e0ddf903",
+        "android_client_info": {
+          "package_name": "com.thetripod.banq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226502907853-dsha0t1hfi5re76qn23sk6qeksk7j25s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thetripod.banq",
+            "certificate_hash": "49833971e53beef6eb58a5c4714f9c14a8705ad1"
+          }
+        },
+        {
+          "client_id": "226502907853-i7kkvl2jfcjqaaipl73m6r7r1lsahmiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW8-zSRnehRLd6F_Ete-QB-zASPO0YRmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226502907853-i7kkvl2jfcjqaaipl73m6r7r1lsahmiv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226502907853:android:e95f50df77bd0a32",
+        "android_client_info": {
+          "package_name": "com.thetripod.synq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226502907853-10pb0t2snkqmr99majeteh5gtetclr6i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thetripod.synq",
+            "certificate_hash": "49833971e53beef6eb58a5c4714f9c14a8705ad1"
+          }
+        },
+        {
+          "client_id": "226502907853-spdi3fdnpqtq046htuvg82c2cs4tdehh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thetripod.synq",
+            "certificate_hash": "9518cbce524be54e23a155ee07a9f1a8e81b7f03"
+          }
+        },
+        {
+          "client_id": "226502907853-i7kkvl2jfcjqaaipl73m6r7r1lsahmiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW8-zSRnehRLd6F_Ete-QB-zASPO0YRmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226502907853-i7kkvl2jfcjqaaipl73m6r7r1lsahmiv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
