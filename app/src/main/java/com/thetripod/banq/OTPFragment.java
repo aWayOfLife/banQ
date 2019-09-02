@@ -147,7 +147,7 @@ public class OTPFragment extends Fragment {
 
                     //use = FirebaseAuth.getInstance().getCurrentUser();
                     bankerId =FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    BankerDetails bankerDetails = new BankerDetails(bankerId,name,phone_number,city,branch);
+                    BankerDetails bankerDetails = new BankerDetails(bankerId,name,phone_number,"Delhi","AF SCHOOL DELHI");
                     firebaseDatabase.child(bankerId).setValue(bankerDetails);
 
 

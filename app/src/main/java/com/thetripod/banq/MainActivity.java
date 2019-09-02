@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
                         final DatabaseReference mRef1 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Current").child(bookingCurrent.getUserId());;
                         bookingCurrent.setStatus("Active");
+                        bookingCurrent.setBankerId(mAuth.getCurrentUser().getUid());
                         mRef1.setValue(bookingCurrent);
 
                         BookingCompleted bookingCompleted = new BookingCompleted(bookingCurrent.getUserId(), mAuth.getCurrentUser().getUid(),
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
                         final DatabaseReference mRef1 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Current").child(bookingCurrent.getUserId());;
                         bookingCurrent.setStatus("Active");
+                        bookingCurrent.setBankerId(mAuth.getCurrentUser().getUid());
                         mRef1.setValue(bookingCurrent);
 
                         BookingCompleted bookingCompleted = new BookingCompleted(bookingCurrent.getUserId(), mAuth.getCurrentUser().getUid(),
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                                  BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
                                  BookingCompleted bookingCompleted = new BookingCompleted(bookingCurrent.getUserId(), bookingCurrent.getBookingId(), bankerId, bookingCurrent.getServiceId(),
                                          bookingCurrent.getSlot(), bookingCurrent.getBranch(), String.valueOf(System.currentTimeMillis()),  bookingCurrent.getBookingTimestamp() );
-                                 final DatabaseReference mRef2 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Completed").child(user_name.getText().toString());
+                                 final DatabaseReference mRef2 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Completed").child(bookingCurrent.getUserId());
                                  mRef2.push().setValue(bookingCompleted);//eta bookingCompleted hobe na?
 
                                  mRef1.removeValue();
