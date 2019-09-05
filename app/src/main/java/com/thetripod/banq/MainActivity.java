@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 final String branch = bankerDetails.getBranch();
                 Toast.makeText(MainActivity.this,bankerDetails.getCity(), Toast.LENGTH_LONG).show();
                 final String date = "01-09-2019";
-                final String slot = "2";
+                final String slot = "10:00 - 12:00";
                 final DatabaseReference mRef = mDatabase.child("bookings").child(city).child(branch).child("Booking_Queue").child(date).child(slot);
                 Log.i("QUERY",mRef.toString());
                 mRef.limitToFirst(1).addChildEventListener(new ChildEventListener() {
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        mRef.removeEventListener(this);
                         BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
                         Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
                         bookingId.setText(bookingCurrent.getBookingId());
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         final DatabaseReference mRef3 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Queue").child(date).child(slot).child(bookingCurrent.getBookingTimestamp());
                         mRef3.removeValue();
 
-                        mRef.removeEventListener(this);
+
                     }
 
                     @Override
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        }
+    }
 
      public void servedCustomer(){
         final String bankerId= mAuth.getCurrentUser().getUid();
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                  final String branch = bankerDetails.getBranch();
                  Toast.makeText(MainActivity.this,bankerDetails.getCity(), Toast.LENGTH_LONG).show();
                  final String date = "01-09-2019";
-                 final String slot = "2";
+                 final String slot = "10:00 - 12:00";
 
                  final DatabaseReference mRef = mDatabase.child("bookings").child(city).child(branch).child("Booking_Ongoing").child(date).child(slot).child(bankerId);
                  mRef.addValueEventListener(new ValueEventListener() {
