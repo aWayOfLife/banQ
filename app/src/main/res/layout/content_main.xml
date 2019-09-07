@@ -18,7 +18,7 @@
             android:text="Syndicate Bank"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:id="@+id/logout"/>
+            android:id="@+id/city_name"/>
 
         <TextView
                 android:layout_marginBottom="40dp"
@@ -27,15 +27,16 @@
                 android:layout_height="wrap_content"
                 android:text="Behala Branch"
                 android:textSize="20sp"
-                android:id="@+id/dropdown_spin_text"
+                android:id="@+id/branch_name"
                 android:layout_marginRight="10dp"/>
 
         <TextView
+            android:id="@+id/nextHint"
             android:layout_marginBottom="40dp"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your next customer is"
+            android:text="No current Customers"
             android:textSize="20sp"
             android:layout_marginRight="10dp"/>
 

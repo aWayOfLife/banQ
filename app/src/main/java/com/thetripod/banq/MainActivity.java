@@ -32,8 +32,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private TextView bookingId, serviceId, user_name;
+    private TextView bookingId, serviceId, user_name , branchName , cityName , nextHint;
     private String slot , date;
+    private Button served , next_customer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +42,18 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
 
         mAuth = FirebaseAuth.getInstance();
-        final Button next_customer = findViewById(R.id.button_next_customer);
-        final Button served = findViewById(R.id.button_served);
+        updateBranchName();
+        next_customer = findViewById(R.id.button_next_customer);
+        served = findViewById(R.id.button_served);
+        next_customer.setVisibility(View.GONE);
+        served.setVisibility(View.GONE);
+        toggleVisibility();
         bookingId = findViewById(R.id.bookingID);
         serviceId = findViewById(R.id.serviceID);
         user_name = findViewById(R.id.user_name);
+        branchName = findViewById(R.id.city_name);
+        cityName = findViewById(R.id.branch_name);
+        nextHint = findViewById(R.id.nextHint);
         date = convertTimestampToDate(System.currentTimeMillis());
         slot = getCurentSlot();
         Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
@@ -89,9 +97,23 @@ public class MainActivity extends AppCompatActivity {
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
                         Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
+                        nextHint.setText("Your next customer is:");
                         bookingId.setText(bookingCurrent.getBookingId());
                         serviceId.setText(bookingCurrent.getServiceId());
-                        user_name.setText(bookingCurrent.getUserId());
+                        final Query query1 = mDatabase.child("User").child(bookingCurrent.getUserId());
+                        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                BankerDetails bankerDetails1 = dataSnapshot.getValue(BankerDetails.class);
+                                user_name.setText(bankerDetails1.getName());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
 
                         final DatabaseReference mRef1 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Current").child(bookingCurrent.getUserId());;
                         bookingCurrent.setStatus("Active");
@@ -114,9 +136,22 @@ public class MainActivity extends AppCompatActivity {
                         mRef.removeEventListener(this);
                         BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
                         Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
+                        nextHint.setText("Your next customer is:");
                         bookingId.setText(bookingCurrent.getBookingId());
                         serviceId.setText(bookingCurrent.getServiceId());
-                        user_name.setText(bookingCurrent.getUserId());
+                        final Query query1 = mDatabase.child("User").child(bookingCurrent.getUserId());
+                        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                BankerDetails bankerDetails1 = dataSnapshot.getValue(BankerDetails.class);
+                                user_name.setText(bankerDetails1.getName());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
 
                         final DatabaseReference mRef1 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Current").child(bookingCurrent.getUserId());;
                         bookingCurrent.setStatus("Active");
@@ -209,6 +244,10 @@ public class MainActivity extends AppCompatActivity {
 
                                  mRef1.removeValue();
                                  mRef.removeValue();
+                                 nextHint.setText("Customer Served");
+                                 bookingId.setText("");
+                                 serviceId.setText("");
+                                 user_name.setText("");
                                  mRef1.removeEventListener(this);
 
                              }
@@ -248,5 +287,64 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("HH");
         String hour = sdf.format(new Date());
         return hour;
+    }
+
+    public void toggleVisibility(){
+        final String bankerId= mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        final Query query = mDatabase.child("Banker").child(mAuth.getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //parse data to recycler view adapter and call notifyDatasetChange()
+                BankerDetails bankerDetails = dataSnapshot.getValue(BankerDetails.class);
+                final String city = bankerDetails.getCity();
+                final String branch = bankerDetails.getBranch();
+                final DatabaseReference mRef = mDatabase.child("bookings").child(city).child(branch).child("Booking_Ongoing").child(date).child(slot).child(bankerId);
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        BookingCompleted bookingCompleted = dataSnapshot.getValue(BookingCompleted.class);
+                        if(null!=bookingCompleted){
+                            served.setVisibility(View.VISIBLE);
+                            next_customer.setVisibility(View.GONE);
+                        }
+                        else{
+                            served.setVisibility(View.GONE);
+                            next_customer.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    public void updateBranchName(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        final Query query = mDatabase.child("Banker").child(mAuth.getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //parse data to recycler view adapter and call notifyDatasetChange()
+                BankerDetails bankerDetails = dataSnapshot.getValue(BankerDetails.class);
+                final String city = bankerDetails.getCity();
+                final String branch = bankerDetails.getBranch();
+                cityName.setText(city);
+                branchName.setText(branch);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
     }
 }
