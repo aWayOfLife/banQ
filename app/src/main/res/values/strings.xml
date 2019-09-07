@@ -17,6 +17,13 @@
         <item>Mumbai</item>
     </string-array>
 
+    <string-array name="bangalore_selector">
+        <item>Card Centre</item>
+        <item>CO GAD</item>
+        <item>DEVENAHALLI</item>
+        <item>J C ROAD</item>
+    </string-array>
+
     <string-array name="slot_selector">
         <item>1</item>
         <item>2</item>

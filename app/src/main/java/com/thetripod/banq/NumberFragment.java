@@ -33,8 +33,9 @@ import java.util.List;
  * Use the {@link NumberFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NumberFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener {
+public class NumberFragment extends Fragment
+       // implements AdapterView.OnItemSelectedListener
+        {
 
 
     private Spinner spin_city,spin_branch;
@@ -90,20 +91,27 @@ public class NumberFragment extends Fragment implements
 
                 spin_city = (Spinner)rootView.findViewById(R.id.spin_city);
                 spin_branch= (Spinner)rootView.findViewById(R.id.spin_branch);
-                spin_city.setOnItemSelectedListener(this);
-                final String city =  String.valueOf(spin_city.getSelectedItem());
-                final String branch= String.valueOf(spin_branch.getSelectedItem());
-
-
+                //spin_city.setOnItemSelectedListener(this);
                 Button confirm_number = rootView.findViewById(R.id.button_confirm_number);
                 phoneNumber=rootView.findViewById(R.id.enter_number);
                 name = rootView.findViewById(R.id.enter_name);
+                spin_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                    {
+                        Toast.makeText(getContext(), "Default city set as Bangalore", Toast.LENGTH_SHORT).show();
+                    }
+                    public void onNothingSelected(AdapterView<?> parent)
+                    {
+
+                    }
+                });
                 confirm_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CountryCodePicker ccp;
                 ccp = (CountryCodePicker)rootView.findViewById(R.id.ccp);
-                final String city =  String.valueOf(spin_city.getSelectedItem());
+                //final String city =  String.valueOf(spin_city.getSelectedItem());
+                final String city = "Bangalore";
                 final String branch= String.valueOf(spin_branch.getSelectedItem());
                 String numWithCode=ccp.getSelectedCountryCodeWithPlus() + phoneNumber.getText().toString().trim();
                 String number = NumberToFirebase(numWithCode);
@@ -149,7 +157,7 @@ public class NumberFragment extends Fragment implements
         mListener = null;
     }
 
-    @Override
+   /* @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String sp1= String.valueOf(spin_city.getSelectedItem());
         //Toast.makeText(this, sp1, Toast.LENGTH_SHORT).show();
@@ -198,7 +206,7 @@ public class NumberFragment extends Fragment implements
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this

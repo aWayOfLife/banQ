@@ -34,7 +34,8 @@
             <Spinner
                 android:id="@+id/spin_branch"
                 android:layout_width="152dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:entries="@array/bangalore_selector"/>
 
 
 

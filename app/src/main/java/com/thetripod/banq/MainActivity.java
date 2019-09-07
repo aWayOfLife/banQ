@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,11 +24,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private TextView bookingId, serviceId, user_name;
-    private String userId;
+    private String slot , date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         bookingId = findViewById(R.id.bookingID);
         serviceId = findViewById(R.id.serviceID);
         user_name = findViewById(R.id.user_name);
-
+        date = convertTimestampToDate(System.currentTimeMillis());
+        slot = getCurentSlot();
+        Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
         served.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
     }
 
     public void nextCustomerDetails(){
@@ -69,14 +78,13 @@ public class MainActivity extends AppCompatActivity {
                 BankerDetails bankerDetails = dataSnapshot.getValue(BankerDetails.class);
                 final String city = bankerDetails.getCity();
                 final String branch = bankerDetails.getBranch();
-                Toast.makeText(MainActivity.this,bankerDetails.getCity(), Toast.LENGTH_LONG).show();
-                final String date = "01-09-2019";
-                final String slot = "10:00 - 12:00";
+                Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
+
+                //final String date = "01-09-2019";
+                //final String slot = "10:00 - 12:00";
                 final DatabaseReference mRef = mDatabase.child("bookings").child(city).child(branch).child("Booking_Queue").child(date).child(slot);
                 Log.i("QUERY",mRef.toString());
                 mRef.limitToFirst(1).addChildEventListener(new ChildEventListener() {
-
-
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
@@ -150,6 +158,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public String getCurentSlot(){
+        String exact_time = null;
+        int hour = Integer.parseInt(convertTimestampToHour());
+        if(hour >= 0 && hour < 12)
+            exact_time = "10:00 - 12:00";
+        else if (hour >= 12 && hour < 13)
+            exact_time = "12:00 - 13:00";
+        else if (hour >= 13 && hour < 14)
+            exact_time = "13:00 - 14:00";
+        else if (hour >= 15 && hour < 16)
+            exact_time = "15:00 - 16:00";
+        else
+            exact_time = "10:00 - 12:00";
+
+        return exact_time;
+    }
+
      public void servedCustomer(){
         final String bankerId= mAuth.getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -162,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
                  final String city = bankerDetails.getCity();
                  final String branch = bankerDetails.getBranch();
                  Toast.makeText(MainActivity.this,bankerDetails.getCity(), Toast.LENGTH_LONG).show();
-                 final String date = "01-09-2019";
-                 final String slot = "10:00 - 12:00";
+                 //final String date = "01-09-2019";
+                 //final String slot = "10:00 - 12:00";
 
                  final DatabaseReference mRef = mDatabase.child("bookings").child(city).child(branch).child("Booking_Ongoing").child(date).child(slot).child(bankerId);
                  mRef.addValueEventListener(new ValueEventListener() {
@@ -177,8 +202,10 @@ public class MainActivity extends AppCompatActivity {
                                  BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
                                  BookingCompleted bookingCompleted = new BookingCompleted(bookingCurrent.getUserId(), bookingCurrent.getBookingId(), bankerId, bookingCurrent.getServiceId(),
                                          bookingCurrent.getSlot(), bookingCurrent.getBranch(), String.valueOf(System.currentTimeMillis()),  bookingCurrent.getBookingTimestamp() );
-                                 final DatabaseReference mRef2 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Completed").child(bookingCurrent.getUserId());
-                                 mRef2.push().setValue(bookingCompleted);//eta bookingCompleted hobe na?
+                                 //final DatabaseReference mRef2 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Completed").child(bookingCurrent.getUserId());
+                                 final DatabaseReference mRef2 = mDatabase.child("bookings").child("Booking_Completed").child(bookingCurrent.getUserId());
+
+                                 mRef2.push().setValue(bookingCompleted);
 
                                  mRef1.removeValue();
                                  mRef.removeValue();
@@ -210,4 +237,16 @@ public class MainActivity extends AppCompatActivity {
 
 
      }
+    public String convertTimestampToDate(Long timestamp){
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(timestamp);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
+    }
+
+    public static String convertTimestampToHour(){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        String hour = sdf.format(new Date());
+        return hour;
+    }
 }
