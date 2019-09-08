@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                         final DatabaseReference mRef3 = mDatabase.child("bookings").child(city).child(branch).child("Booking_Queue").child(date).child(slot).child(bookingCurrent.getBookingTimestamp());
                         mRef3.removeValue();
+//s
 
 
                     }
