@@ -68,7 +68,7 @@ public class OTPFragment extends Fragment {
             city = getArguments().getString("CITY");
             branch = getArguments().getString("BRANCH");
 
-            Toast.makeText(getContext(),branch, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(),branch, Toast.LENGTH_LONG).show();
         }
     }
 

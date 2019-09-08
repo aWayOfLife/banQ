@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         nextHint = findViewById(R.id.nextHint);
         date = convertTimestampToDate(System.currentTimeMillis());
         slot = getCurentSlot();
-        Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
         served.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 BankerDetails bankerDetails = dataSnapshot.getValue(BankerDetails.class);
                 final String city = bankerDetails.getCity();
                 final String branch = bankerDetails.getBranch();
-                Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this,date+slot, Toast.LENGTH_LONG).show();
 
                 //final String date = "01-09-2019";
                 //final String slot = "10:00 - 12:00";
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
-                        Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
+                       // Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
                         nextHint.setText("Your next customer is:");
                         bookingId.setText(bookingCurrent.getBookingId());
                         serviceId.setText(bookingCurrent.getServiceId());
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         mRef.removeEventListener(this);
                         BookingCurrent bookingCurrent = dataSnapshot.getValue(BookingCurrent.class);
-                        Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
+                       // Toast.makeText(MainActivity.this,bookingCurrent.getBookingId(), Toast.LENGTH_LONG).show();
                         nextHint.setText("Your next customer is:");
                         bookingId.setText(bookingCurrent.getBookingId());
                         serviceId.setText(bookingCurrent.getServiceId());
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                  BankerDetails bankerDetails = dataSnapshot.getValue(BankerDetails.class);
                  final String city = bankerDetails.getCity();
                  final String branch = bankerDetails.getBranch();
-                 Toast.makeText(MainActivity.this,bankerDetails.getCity(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this,bankerDetails.getCity(), Toast.LENGTH_LONG).show();
                  //final String date = "01-09-2019";
                  //final String slot = "10:00 - 12:00";
 
